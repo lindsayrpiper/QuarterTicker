@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self';"
+  />
+  <title>QuarterTicker</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="card">
+    <section id="setup" class="hidden">
+      <h1>Set up your quarters</h1>
+      <p class="muted">Which month does your <strong>Q1</strong> start?</p>
+      <div class="setup-row">
+        <select id="month-select" aria-label="First month of Q1"></select>
+        <button id="save-btn" class="primary">Save</button>
+      </div>
+    </section>
+
+    <section id="dashboard" class="hidden">
+      <button id="settings-btn" class="settings" title="Change Q1 start month" aria-label="Settings">⚙</button>
+      <div id="today-date" class="today"></div>
+      <div id="quarter-day" class="quarter-day"></div>
+      <div class="progress" role="progressbar">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <div id="percent-text" class="percent"></div>
+      <div id="range" class="range muted"></div>
+    </section>
+  </main>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
