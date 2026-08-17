@@ -11,6 +11,7 @@
     "build:renderer": "esbuild src/renderer.ts --bundle --target=chrome120 --outfile=dist/renderer.js --format=iife",
     "copy:assets": "node scripts/copy-assets.mjs",
     "build": "npm run build:main && npm run build:preload && npm run build:renderer && npm run copy:assets",
+    "build:web": "esbuild src/web-entry.ts --bundle --target=chrome120 --outfile=site/renderer.js --format=iife && node scripts/build-web.mjs",
     "typecheck": "tsc --noEmit",
     "start": "npm run build && electron .",
     "dev": "npm run build && electron ."

@@ -35,8 +35,26 @@ button.
 | Script | What it does |
 | --- | --- |
 | `npm run build` | Bundle main, preload, and renderer into `dist/` and copy static assets |
+| `npm run build:web` | Bundle the browser version into `site/` (static, no Electron) |
 | `npm run typecheck` | Type-check the source with `tsc --noEmit` |
 | `npm start` | Build, then launch Electron |
+
+## Web version
+
+QuarterTicker also runs as a plain website — the UI and quarter math are
+identical; only the way your Q1 month is stored changes. On the desktop it's
+saved to disk via Electron; on the web it's saved to the browser's
+`localStorage`. `src/web-entry.ts` installs that browser bridge and then loads
+the same `renderer.ts`.
+
+`npm run build:web` produces a self-contained `site/` folder you can host
+anywhere static. This repo also ships a GitHub Actions workflow
+(`.github/workflows/deploy-pages.yml`) that builds and publishes `site/` to
+**GitHub Pages** on every push to `main`.
+
+To turn it on once: in the repo, go to **Settings → Pages → Build and
+deployment → Source** and choose **GitHub Actions**. After the next push to
+`main`, the app is live at `https://<user>.github.io/quarterticker/`.
 
 ## How the quarter math works
 
@@ -51,9 +69,11 @@ daylight-saving shifts) are handled exactly.
 ```
 src/
   main.ts       Electron main process — window + config persistence (IPC)
-  preload.ts    Safe bridge exposing config get/set to the renderer
+  preload.ts    Safe bridge exposing config get/set to the renderer (desktop)
+  web-api.ts    localStorage-backed config bridge (web)
+  web-entry.ts  Web entry point: installs web-api, then loads the renderer
   quarter.ts    Pure quarter math (no Electron/DOM dependencies)
   renderer.ts   UI logic: setup screen + dashboard, midnight auto-refresh
-  index.html    Markup
-  styles.css    Styling
+  index.html    Markup (shared by desktop and web)
+  styles.css    Styling (shared by desktop and web)
 ```
